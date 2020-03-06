@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.view.SurfaceView;
 
 import org.apache.cordova.CallbackContext;
@@ -72,6 +73,8 @@ public class LinphoneMiniManager implements CoreListener {
 	public static LinphoneMiniManager mInstance;
 	public static Context mContext;
 	public static Core mCore;
+
+	private AudioManager mAudioManager;
     //public static LinphonePreferences mPrefs;
 	public static Timer mTimer;
 	public static SurfaceView mCaptureView;
@@ -80,6 +83,8 @@ public class LinphoneMiniManager implements CoreListener {
 
 	public LinphoneMiniManager(Context c) {
 		mContext = c;
+		mAudioManager = ((AudioManager) c.getSystemService(Context.AUDIO_SERVICE));
+
 		Factory.instance().setDebugMode(true, "Linphone Mini");
         //mPrefs = LinphonePreferences.instance();
 
@@ -98,6 +103,8 @@ public class LinphoneMiniManager implements CoreListener {
 			mCore.setNetworkReachable(true); // Let's assume it's true
 			mCore.addListener(this);
 			mCaptureView = new SurfaceView(mContext);
+
+			mAudioManager.setSpeakerphoneOn(true);
 			mCore.start();
 		} catch (IOException e) {
 			Log.e(new Object[]{"Error initializing Linphone",e.getMessage()});
@@ -230,12 +237,12 @@ public class LinphoneMiniManager implements CoreListener {
     }
 
     public boolean toggleEnableSpeaker() {
-//        if (mCore.inCall()) {
-//			boolean enabled = !mCore.;
-//			mCore.enableSpeaker(enabled);
-//            return enabled;
-//        }
-        return false;
+     //   if (mCore.inCall()) {
+	//		boolean enabled = !mCore.;
+	//		mCore.enableSpeaker(enabled);
+      //     return enabled;
+     //   }
+       return false;
     }
 
     public boolean toggleMute() {
